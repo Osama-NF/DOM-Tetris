@@ -3,6 +3,9 @@
 ######## Right Aside ########
 #############################
 */
+
+/* Planning to change it back to block */
+
 aside.right {
     display: flex;
     flex-direction: column;

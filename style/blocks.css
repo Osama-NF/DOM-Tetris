@@ -1,0 +1,53 @@
+/* 
+#############################
+########## General ##########
+#############################
+*/
+.block {
+    border: 1px solid black;
+    position: absolute;
+    box-sizing: border-box;
+    height: 50%;
+    width: 50%;
+}
+
+.container {
+    position: relative;
+
+    /* Will propably remove  down here and make it block specific */
+    width: 10%;
+    height: 10%;
+
+    /* Will remove down here later; just for testing */
+    /* top: 50%;
+    right: 50%; */
+}
+
+/* 
+#############################
+######### Stair Like ########
+#############################
+*/
+.stair-like div {background-color: darkcyan;}
+.stair-like :nth-child(1) {top: 0%; left: 50%;}
+.stair-like :nth-child(2) {top: 50%; left: 50%;}
+.stair-like :nth-child(3) {top: 50%; left: 0%;}
+
+/* 
+#############################
+######### Big Block #########
+#############################
+*/
+.big-block div {background-color: red;}
+.big-block :nth-child(1) {top: 0%; left: 50%;}
+.big-block :nth-child(2) {top: 50%; left: 50%;}
+.big-block :nth-child(3) {top: 0%; left: 0%;}
+.big-block :nth-child(4) {top: 50%; left: 0%;}
+
+/* 
+#############################
+######## Single Block #######
+#############################
+*/
+.single-block div {background-color: blue;}
+.single-block :nth-child(1) {top: 0%; left: 50%;}
