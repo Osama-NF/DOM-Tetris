@@ -25,6 +25,14 @@ class Game {
             },
         ];
 
+        // down here is just a ref for a feture idea on how to use the rotate()
+        this.blockDirection = {
+            default: 1,
+            right: 2,
+            down: 3,
+            left: 4
+        }
+
     }
 
     start() {

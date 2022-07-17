@@ -29,16 +29,22 @@
 #############################
 */
 .stair-like div {background-color: darkcyan;}
+
 .stair-like :nth-child(1) {top: 0%; left: 50%;}
 .stair-like :nth-child(2) {top: 50%; left: 50%;}
 .stair-like :nth-child(3) {top: 50%; left: 0%;}
 
-/* 
+.stair-like.flipped-right :nth-child(1) {top: 0%; left: 0%;}
+.stair-like.flipped-down :nth-child(2) {top: 0%; left: 0%;}
+.stair-like.flipped-left :nth-child(3) {top: 0%; left: 0%;}
+
+/*
 #############################
 ######### Big Block #########
 #############################
 */
 .big-block div {background-color: red;}
+
 .big-block :nth-child(1) {top: 0%; left: 50%;}
 .big-block :nth-child(2) {top: 50%; left: 50%;}
 .big-block :nth-child(3) {top: 0%; left: 0%;}
