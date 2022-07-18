@@ -18,9 +18,8 @@
     width: 10%;
     height: 10%;
 
-    /* Will remove down here later; just for testing */
-    /* top: 50%;
-    right: 50%; */
+    /* Down here works weirdly with left, but works fine with right, if there is a bug, it's probably this */
+    right: 50%;
 }
 
 /* 
@@ -38,6 +37,7 @@
 .stair-like.flipped-down :nth-child(2) {top: 0%; left: 0%;}
 .stair-like.flipped-left :nth-child(3) {top: 0%; left: 0%;}
 
+
 /*
 #############################
 ######### Big Block #########
@@ -49,6 +49,7 @@
 .big-block :nth-child(2) {top: 50%; left: 50%;}
 .big-block :nth-child(3) {top: 0%; left: 0%;}
 .big-block :nth-child(4) {top: 50%; left: 0%;}
+
 
 /* 
 #############################

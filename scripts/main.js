@@ -36,8 +36,21 @@ class Game {
     }
 
     start() {
-        let block = this.createBlock()
-        $('main').append(block)
+        let container = this.createBlock()
+        $('main').append(container)
+
+
+        setInterval(() => {
+            $('.moveable').css(
+                {'top': $('main').height() / 10}
+            )
+        }, 500)
+
+        console.log($('.container').css('right'))
+        console.log($('.container').parent().innerWidth())
+        console.log('#########################################')
+        console.log($('.container').css('top'))
+        console.log($('.container').parent().innerHeight())
     }
 
     createBlock() {
@@ -62,11 +75,4 @@ class Game {
         return container;
     }
 
-    get getNewScore() {
-
-    }
-
-    set setNewScore(newScore) {
-
-    }
 }
