@@ -39,18 +39,23 @@ class Game {
         let container = this.createBlock()
         $('main').append(container)
 
+        let fiedlLimits = $('main').height() - $('main').height() / 10;
+        let stepDistance = $('main').height() / 10;
 
-        setInterval(() => {
-            $('.moveable').css(
-                {'top': $('main').height() / 10}
-            )
-        }, 500)
+        // should change to a recursive function ???
+        let blockFall = setInterval(() => {
+            
+            let currentTopValue = Number($('.moveable').css('top').replace('px',''));
+            let newTopValue = currentTopValue + stepDistance;
 
-        console.log($('.container').css('right'))
-        console.log($('.container').parent().innerWidth())
-        console.log('#########################################')
-        console.log($('.container').css('top'))
-        console.log($('.container').parent().innerHeight())
+            $('.moveable').css('top', newTopValue);
+            
+            if (newTopValue >= fiedlLimits) {
+                clearInterval(blockFall);
+            }
+
+        }, 200)
+
     }
 
     createBlock() {

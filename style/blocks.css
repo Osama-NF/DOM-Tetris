@@ -12,7 +12,7 @@
 }
 
 .container {
-    position: relative;
+    position: absolute;
 
     /* Will propably remove  down here and make it block specific */
     width: 10%;
