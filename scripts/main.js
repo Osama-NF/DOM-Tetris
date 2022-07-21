@@ -1,16 +1,16 @@
 $('.play-btn').click(function() {
-    let newGame = new Game(false);
+    let newGame = new Game(false, 20);
     newGame.start();
 })
 
 
 class Game {
 
-    constructor(classic) {
+    constructor(classic, dropSpeed) {
 
         this.classic = classic;
-        this.stepDistance = $('main').height() / 10;
-        this.fieldLimits = $('main').height() - this.stepDistance * 2;
+        this.stepDistance = $('main').height() / dropSpeed;
+        this.stepCounter = dropSpeed - (dropSpeed * 0.1);
 
         this.blockTypes = [
             {
@@ -41,7 +41,7 @@ class Game {
         let container = this.createBlock();
         $('main').append(container);
 
-        this.dropBlock(container);
+        this.dropBlock(container, this.stepCounter);
     }
 
     // Below function creates the container for the block and returns it
@@ -68,22 +68,24 @@ class Game {
     }
 
     // below is a recusrive function that continues to call it self as long as the block didn't hit the bottom (should be changed for the .moveable class later on)
-    dropBlock(container) {
+    dropBlock(container, counter) {
 
-        let currentTopValue = Number($(container).css('top').replace('px',''));
-        if(currentTopValue >= this.fieldLimits){
-            console.log('current value: ' + currentTopValue)
-            console.log('field limit: ' + this.fieldLimits)
+        if ($(container).hasClass('moveable') && counter > 0) {
+
+            let currentTopValue = Number($(container).css('top').replace('px',''));
+            let newValue = currentTopValue + this.stepDistance;
+            $(container).css('top', newValue);
+            
+            console.log(counter)
+            let newCounter = counter - 1;
+            setTimeout(()=> {
+                this.dropBlock(container, newCounter);
+            }, 350) // Maybe make the speed customizable too ???
+
+        } else {
+            $(container).removeClass('moveable');
             return;
         }
-
-        let newValue = currentTopValue + this.stepDistance;
-        $(container).css('top', newValue);
-
-        setTimeout(() => {
-            console.log(currentTopValue)
-            this.dropBlock(container);
-        }, 100);
         
     }
     
