@@ -1,17 +1,21 @@
 $('.play-btn').click(function() {
-    let newGame = new Game(false, 20);
+    let newGame = new Game(20, 500);
     newGame.start();
 })
 
 
 class Game {
 
-    constructor(classic, dropSpeed) {
+    constructor(dropDistance, dropSpeed) {
 
-        this.classic = classic;
-        this.stepDistanceY = $('main').height() / dropSpeed;
-        this.stepDistanceX = $('main').width() / dropSpeed;
-        this.stepCounter = dropSpeed - (dropSpeed * 0.1);
+        this.dropSpeed = dropSpeed;
+        this.dropSpeedCopy = dropSpeed;
+        this.dropDistance = dropDistance;
+
+        this.stepDistanceY = $('main').height() / this.dropDistance;
+        this.stepDistanceX = $('main').width() / this.dropDistance;
+        this.fieldBorderY = $('main').height() * 0.85;
+        this.fieldBorderX = $('main').width() * 0.9;
 
         this.blockTypes = [
             {
@@ -42,19 +46,42 @@ class Game {
         let container = this.createBlock();
         $('main').append(container);
 
-        this.dropBlock(container, this.stepCounter);
+        this.dropBlock(container);
+        this.startEventListening();
+        
+    }
 
+    startEventListening() {
         document.addEventListener('keydown', (e) => {
             switch(e.key) {
+
                 case "ArrowRight":
                 case "ArrowLeft":
                     this.moveBlock(e.key);
                     break;
+
+                case "ArrowUp":
+                    this.makeBlockSlower();
+                    break;
+
+                case "ArrowDown":
+                    this.makeBlockFaster();
+                    break;
+
             }
         });
+        document.addEventListener('keyup', (e) => {
+            switch(e.key) {
+
+                case "ArrowUp":
+                case "ArrowDown":
+                    this.revertBlockToNormalSpeed();
+                    break;
+
+            }
+        })
     }
 
-    // Below function creates the container for the block and returns it
     createBlock() {
         // Choose the type of the block randomly
         let randomNumber = Math.floor((Math.random() * this.blockTypes.length));
@@ -77,20 +104,18 @@ class Game {
         return container;
     }
 
-    // below is a recusrive function that continues to call it self as long as the block 
-    // didn't hit the bottom (should be changed for the .moveable class later on)
-    dropBlock(container, counter) {
+    dropBlock(container) {
 
-        if ($(container).hasClass('moveable') && counter > 0) {
+        let currentTopValue = Number($(container).css('top').replace('px',''));
 
-            let currentTopValue = Number($(container).css('top').replace('px',''));
+        if ($(container).hasClass('moveable') && currentTopValue <= this.fieldBorderY) {
+
             let newValue = currentTopValue + this.stepDistanceY;
             $(container).css('top', newValue);
             
-            let newCounter = counter - 1;
             setTimeout(()=> {
-                this.dropBlock(container, newCounter);
-            }, 350) // Maybe make the speed customizable too ???
+                this.dropBlock(container);
+            }, this.dropSpeed)
 
         } else {
             $(container).removeClass('moveable');
@@ -101,20 +126,34 @@ class Game {
     
     moveBlock(dir) {
         
-        let currentRightValue = Number($('.moveable').css('right').replace('px',''));
-        let leftBorders = $('main').width() / 10 * 9; // will change math later to make it shorter (also to move the code somewhere nicer)
+        let currentRightValue = Number($('.moveable').css('right').replace('px',''));   
 
         if (dir == 'ArrowRight' && currentRightValue > 0) {
             
             let newRightValue = currentRightValue - this.stepDistanceX;
             $('.moveable').css('right', newRightValue);
 
-        } else if (dir == 'ArrowLeft' && currentRightValue < leftBorders) {
+        } else if (dir == 'ArrowLeft' && currentRightValue < this.fieldBorderX) {
 
             let newRightValue = currentRightValue + this.stepDistanceX;
             $('.moveable').css('right', newRightValue);
-            console.log(newRightValue)
         }
 
+    }
+
+    makeBlockSlower() {
+        if (this.dropSpeed === this.dropSpeedCopy) {
+            this.dropSpeed *= 1.5;
+        }
+    }
+    
+    makeBlockFaster() {
+        if (this.dropSpeed === this.dropSpeedCopy) {
+            this.dropSpeed /= 10;
+        }
+    }
+
+    revertBlockToNormalSpeed() {
+        this.dropSpeed = this.dropSpeedCopy;
     }
 }
