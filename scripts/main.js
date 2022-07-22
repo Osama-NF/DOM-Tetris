@@ -32,14 +32,6 @@ class Game {
             // },
         ];
 
-        // down here is just a ref for a feture idea on how to use the rotateBlock()
-        this.blockDirection = {
-            default: 1,
-            right: 2,
-            down: 3,
-            left: 4
-        }
-
     }
 
     start() {
@@ -53,21 +45,26 @@ class Game {
 
     startEventListening() {
         document.addEventListener('keydown', (e) => {
-            switch(e.key) {
-
-                case "ArrowRight":
-                case "ArrowLeft":
-                    this.moveBlock(e.key);
+            let pressedKey = e.key.toLowerCase()
+            switch(pressedKey) {
+                
+                case "arrowright":
+                case "arrowleft":
+                    this.moveBlock(pressedKey);
                     break;
 
-                case "ArrowUp":
+                case "arrowup":
                     this.makeBlockSlower();
                     break;
 
-                case "ArrowDown":
+                case "arrowdown":
                     this.makeBlockFaster();
                     break;
 
+                case "q":
+                case "e":
+                    this.rotateBlock(pressedKey);
+                    break;
             }
         });
         document.addEventListener('keyup', (e) => {
@@ -128,12 +125,12 @@ class Game {
         
         let currentRightValue = Number($('.moveable').css('right').replace('px',''));   
 
-        if (dir == 'ArrowRight' && currentRightValue > 0) {
+        if (dir == 'arrowright' && currentRightValue > 0) {
             
             let newRightValue = currentRightValue - this.stepDistanceX;
             $('.moveable').css('right', newRightValue);
 
-        } else if (dir == 'ArrowLeft' && currentRightValue < this.fieldBorderX) {
+        } else if (dir == 'arrowleft' && currentRightValue < this.fieldBorderX) {
 
             let newRightValue = currentRightValue + this.stepDistanceX;
             $('.moveable').css('right', newRightValue);
@@ -155,5 +152,36 @@ class Game {
 
     revertBlockToNormalSpeed() {
         this.dropSpeed = this.dropSpeedCopy;
+    }
+
+    rotateBlock(dir) {
+
+        let container = $('.moveable').first();
+        let containerClasses = container.attr('class').split(' ');
+
+        // if container has 3 classes only, then it's in the default position
+        if (containerClasses.length == 3) {
+
+            if (dir == 'q') container.addClass('flipped-left');
+            else container.addClass('flipped-right');
+
+        } else if (container.hasClass('flipped-left')) {
+            
+            if (dir == 'q') container.addClass('flipped-down');
+            container.removeClass('flipped-left');
+
+        } else if (container.hasClass('flipped-down')) {
+
+            if (dir == 'q') container.addClass('flipped-right');
+            else container.addClass('flipped-left');
+            container.removeClass('flipped-down');
+
+        } else if (container.hasClass('flipped-right')) {
+
+            if (dir == 'e') container.addClass('flipped-down');
+            container.removeClass('flipped-right');
+
+        }
+        
     }
 }
