@@ -6,11 +6,7 @@
 
 /* Planning to change it back to block */
 
-aside.right {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
+
 
 /* 
 #############################
@@ -20,8 +16,8 @@ aside.right {
 .next-container {
     width: 80%;
     height: 25%;
-    margin: 0px auto;
-    font-size: 2em;
+    margin: 10px auto;
+    font-size: 1.6em;
 }
 
 .next-container h1 {
@@ -37,7 +33,7 @@ aside.right {
     background-color: var(--main-color);
     border: 2px solid black;
     width: 100%;
-    height: 100%;
+    height: 75%;
 }
 
 /* 
@@ -46,14 +42,12 @@ aside.right {
 #############################
 */
 .effects {
+    display: block;
+    margin: 50px auto;
     height: 40%;
     width: 80%;
-    margin: 0px auto;
     background-color: #222;
     border: 2px solid var(--main-color);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
 }
 .effects div {height: 33.3333%;}
 .effects .first-effect {border-bottom: 1px solid var(--main-color);}
@@ -65,10 +59,11 @@ aside.right {
 #############################
 */
 .play-btn {
+    display: block;
+    margin: 80px auto;
     width: 80%;
     height: 10%;
-    margin: 10px auto 50px;
-    font-size: 4em;
+    font-size: 3.2em;
     font-weight: bold;
     background-color: var(--main-color);
     color: var(--main-color-text);
