@@ -1,29 +1,9 @@
-movement:
-	4 Function for that, all apply to a (.moveable) class:
-
-		1- dropBlock() is a recursive function that takes the block 
-		and makes it fall (with the speed the player chooses).
-		stops on two conditions: hit the bottom border, or it's bottom hit
-		another block.
-		
-		2- moveBlock(dir) is a function that takes the direction
-		(right or left) and move to that direction.
-		doesn't move on one conditions: the required direction is blocked
-		by the walls of the field
-
-		3- rotateBlock(dir) is a function that takes the direction of the rotating,
-		and checks the current state of the block, and change the class accordingly.
-
-		4- controlBlockSpeed(speed) is a function that changes the speed
-		while players is holding the button (up or down), and calls this function
-		again when player releases it.
-		expected value for parameter: 
-			1= more speed
-			2= slower
-			0= revert back (is always the parameter when the player releases the button)
+collosion:
+			
 
 ------------TO DO-----------
 collosion:
 scoreboard:
 next block:
 abilities?
+scoreing points:

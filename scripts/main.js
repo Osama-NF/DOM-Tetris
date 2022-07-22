@@ -26,10 +26,18 @@ class Game {
                 blockName: "big-block",
                 divsNumber: 4
             },
-            // {
-            //     blockName: "single-block",
-            //     divsNumber: 1
-            // },
+            {
+                blockName: "single-block",
+                divsNumber: 1
+            },
+            {
+                blockName: "t-shaped",
+                divsNumber: 4
+            },
+            {
+                blockName: "i-shaped",
+                divsNumber: 4
+            },
         ];
 
     }
@@ -44,20 +52,27 @@ class Game {
     }
 
     startEventListening() {
+
         document.addEventListener('keydown', (e) => {
-            let pressedKey = e.key.toLowerCase()
+
+            let pressedKey = e.key.toLowerCase();
+
             switch(pressedKey) {
                 
                 case "arrowright":
-                case "arrowleft":
+                case "arrowright":
+                case "d":
+                case "a":
                     this.moveBlock(pressedKey);
                     break;
 
                 case "arrowup":
+                case "w":
                     this.makeBlockSlower();
                     break;
 
                 case "arrowdown":
+                case "s":
                     this.makeBlockFaster();
                     break;
 
@@ -66,17 +81,25 @@ class Game {
                     this.rotateBlock(pressedKey);
                     break;
             }
-        });
-        document.addEventListener('keyup', (e) => {
-            switch(e.key) {
 
-                case "ArrowUp":
-                case "ArrowDown":
+        });
+
+        document.addEventListener('keyup', (e) => {
+
+            let pressedKey = e.key.toLowerCase();
+
+            switch(pressedKey) {
+
+                case "arrowup":
+                case "arrowdown":
+                case "w":
+                case "s":
                     this.revertBlockToNormalSpeed();
                     break;
 
             }
         })
+
     }
 
     createBlock() {
@@ -116,7 +139,13 @@ class Game {
 
         } else {
             $(container).removeClass('moveable');
-            return;
+            
+            let newContainer = this.createBlock();
+            $('main').append(newContainer);
+            
+            setTimeout(()=> {
+                this.dropBlock(newContainer)
+            }, this.dropSpeed)
         }
         
     }
@@ -125,12 +154,12 @@ class Game {
         
         let currentRightValue = Number($('.moveable').css('right').replace('px',''));   
 
-        if (dir == 'arrowright' && currentRightValue > 0) {
+        if ((dir == 'arrowright' || dir == 'd') && currentRightValue > 0) {
             
             let newRightValue = currentRightValue - this.stepDistanceX;
             $('.moveable').css('right', newRightValue);
 
-        } else if (dir == 'arrowleft' && currentRightValue < this.fieldBorderX) {
+        } else if ((dir == 'arrowleft' || dir == 'a') && currentRightValue < this.fieldBorderX) {
 
             let newRightValue = currentRightValue + this.stepDistanceX;
             $('.moveable').css('right', newRightValue);
@@ -183,5 +212,9 @@ class Game {
 
         }
         
+    }
+
+    checkObstacles(x,y) {
+
     }
 }
