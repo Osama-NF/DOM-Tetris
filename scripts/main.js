@@ -15,6 +15,9 @@ class Game {
         this.stepDistanceY = $('main').height() / this.dropDistance;
         this.stepDistanceX = $('main').width() / this.dropDistance;
 
+        this.blockWidth = $('main').width() * 0.05;
+        this.blockHeight = $('main').height() * 0.05;
+
         this.blockTypes = [
             {
                 blockName: "stair-like",
@@ -231,8 +234,8 @@ class Game {
 
             for (let block of blocksCoordinates) {
 
-                let futureY = block.bottom + this.stepDistanceY - ($('.block').first().height() / 2); 
-                let futureX = block.left + ((block.right - block.left) / 2)
+                let futureY = block.bottom + this.stepDistanceY - (this.blockHeight / 2); 
+                let futureX = block.left + (this.blockWidth / 2)
                 let futureElements = document.elementsFromPoint(futureX, futureY);
                 
                 if (checkElements(futureElements)) return true;
@@ -243,8 +246,8 @@ class Game {
 
             for (let block of blocksCoordinates) {
 
-                let futureY = block.bottom - ($('.block').first().height() / 2); 
-                let futureX = block.right + this.stepDistanceX - ($('.block').first().width() / 2);
+                let futureY = block.bottom - (this.blockHeight / 2); 
+                let futureX = block.right + this.stepDistanceX - (this.blockWidth / 2);
                 let futureElements = document.elementsFromPoint(futureX, futureY);
                 
                 if (checkElements(futureElements)) return true;
@@ -255,8 +258,8 @@ class Game {
 
             for (let block of blocksCoordinates) {
 
-                let futureY = block.bottom - ($('.block').first().height() / 2); 
-                let futureX = block.left - this.stepDistanceX + ($('.block').first().width() / 2);
+                let futureY = block.bottom - (this.blockHeight / 2); 
+                let futureX = block.left - this.stepDistanceX + (this.blockWidth / 2);
                 let futureElements = document.elementsFromPoint(futureX, futureY);
                 
                 if (checkElements(futureElements)) return true;
@@ -297,10 +300,24 @@ class Game {
 
         return coordinates;
     }
+
+    checkLose(){
+        // This function should be called every time a block loses the (.moveable) class
+        // it doesn't return anything, but it changes the this.inGame to false (i might change this)
+        // it should basiclly check the 5% of height on top of the "main" , if there is any element with the class .block
+        // then it changes the this.inGame to false
+    }
+
+    checkScoring() {
+        // This function should be called every time a block loses the (.moveable) class    }
+        // it should check the lower 5% of the 'main', and if there is 20 elements with '.block' class
+        // then it removes the element and lowers all other blocks before calling the new block (will figure how to do that later)
+    }
+
+    end() {
+        // just end, (will check details later)
+    }
 }
-
-
-
 // ###########################################################################################
 
 
