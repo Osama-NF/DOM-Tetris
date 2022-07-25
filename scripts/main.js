@@ -133,7 +133,7 @@ class Game {
         let currentTopValue = Number($(container).css('top').replace('px',''));
         let newValue = currentTopValue + this.stepDistanceY;
         let thereIsObstacle = this.checkObstaclesInDirection(
-            this.getBlockCoordinates(container, newValue, 'bottom'));
+            this.getBlockCoordinates(container), 'bottom');
 
         if ($(container).hasClass('moveable') && !thereIsObstacle) {
 
@@ -158,16 +158,24 @@ class Game {
     moveBlock(dir) {
         
         let currentRightValue = Number($('.moveable').css('right').replace('px',''));   
-
-        if ((dir == 'arrowright' || dir == 'd') && currentRightValue > 0) {
+        let coordinates = this.getBlockCoordinates(document.querySelector('.moveable'));
+        
+        if ((dir == 'arrowright' || dir == 'd')) {
             
             let newRightValue = currentRightValue - this.stepDistanceX;
-            $('.moveable').css('right', newRightValue);
+            if (!this.checkObstaclesInDirection(coordinates, newRightValue, 'right')){
 
-        } else if ((dir == 'arrowleft' || dir == 'a') && currentRightValue < this.fieldBorderX) {
-
+                $('.moveable').css('right', newRightValue);
+            }
+            
+        } else if ((dir == 'arrowleft' || dir == 'a')) {
+            
             let newRightValue = currentRightValue + this.stepDistanceX;
-            $('.moveable').css('right', newRightValue);
+            if (!this.checkObstaclesInDirection(coordinates, newRightValue, 'left')) {
+
+                $('.moveable').css('right', newRightValue);
+            };
+
         }
 
     }
@@ -219,24 +227,61 @@ class Game {
         
     }
 
-    checkObstaclesInDirection(blocks, newValue, direction) {
-    
+    checkObstaclesInDirection(blocks, direction) {
+
+        // why did i loop in all of these ? ,,, i should change it to loop on only the needed direction , with only the needed value (bottom or left or right not all of them) 
+        // also, i don't need the newValue parameter, i should just add the stepDistanceX or stepDistanceY to the position which i already have, and that's the new value !!
+
+        if (direction === 'bottom') {
+
+            for (let block of blocks) {
+
+                let futureY = block.bottom + this.stepDistanceY - ($('.block').first().height() / 2); // i need to divide this by half its height
+                console.log(futureY)
+                let futureX = block.left + ((block.right - block.left) / 2)
+                let futureElements = document.elementsFromPoint(futureX, futureY);
+                
+
+
+                for (let element of futureElements) {
+                    if (element.tagName === "ASIDE"
+                        || element.tagName === "FOOTER"
+                        || (element.classList.contains('block') && !element.parentElement.classList.contains('moveable'))) {
+                            console.log('forbidden Y:' + futureY)
+                            console.log('forbidden X:' + futureX)
+                            return true;
+                    }
+                }
+
+            }
+
+        } else if (direction === 'right') {
+
+        } else if (direction === 'left') {
+
+        }
+
+        return false;
+
+        /////######################################################################$@#$@$@#$@#$@#$@#$@#$$
+        /////######################################################################$@#$@$@#$@#$@#$@#$@#$$
+        /////######################################################################$@#$@$@#$@#$@#$@#$@#$$
+
         for (let block of blocks) {
 
-            if (direction === 'bottom') block.bottom + newValue
-            else if (direction === 'right') block.right + newValue
-            else if (direction === 'left') block.left + newValue
+            if (direction === 'bottom') block.bottom += this.stepDistanceY
+            else if (direction === 'right') block.right += this.stepDistanceX
+            else if (direction === 'left') block.left += this.stepDistanceX
             
             let leftCheck = document.elementsFromPoint(block.left, block.bottom);
             let rightCheck = document.elementsFromPoint(block.right, block.bottom);
             
             for (let check of [leftCheck, rightCheck]) {
-    
                 for (let element of check) {
                     if (element.tagName === "ASIDE"
                         || element.tagName === "FOOTER"
                         || (element.classList.contains('block') 
-                            && !element.classList.contains('moveable'))) {
+                            && !element.parentElement.classList.contains('moveable'))) {
 
                         return true;
                     }
@@ -245,6 +290,7 @@ class Game {
         }
     
         return false;
+
     }
 
     getBlockCoordinates(container) {
@@ -259,7 +305,7 @@ class Game {
             }
             coordinates.push(obj)
         }
-        console.log(coordinates)
+
         return coordinates;
     }
 }
