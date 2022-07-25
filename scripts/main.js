@@ -12,14 +12,8 @@ class Game {
         this.dropSpeedCopy = dropSpeed;
         this.dropDistance = dropDistance;
 
-        // this.rightWall = $('aside.right').position().left;
-        // this.leftWall = $('main').position().left;
-        // this.bottomFloor = $('main').height();
-
         this.stepDistanceY = $('main').height() / this.dropDistance;
         this.stepDistanceX = $('main').width() / this.dropDistance;
-        // this.fieldBorderY = $('main').height() * 0.85;
-        // this.fieldBorderX = $('main').width() * 0.9;
 
         this.blockTypes = [
             {
@@ -47,6 +41,8 @@ class Game {
     }
 
     start() {
+        this.inGame = true;
+
         let container = this.createBlock();
         $('main').append(container);
 
@@ -162,18 +158,20 @@ class Game {
         
         if ((dir == 'arrowright' || dir == 'd')) {
             
-            let newRightValue = currentRightValue - this.stepDistanceX;
-            if (!this.checkObstaclesInDirection(coordinates, newRightValue, 'right')){
-
+            if (!this.checkObstaclesInDirection(coordinates, 'right')){
+                
+                let newRightValue = currentRightValue - this.stepDistanceX;
                 $('.moveable').css('right', newRightValue);
+
             }
             
         } else if ((dir == 'arrowleft' || dir == 'a')) {
             
-            let newRightValue = currentRightValue + this.stepDistanceX;
-            if (!this.checkObstaclesInDirection(coordinates, newRightValue, 'left')) {
-
+            if (!this.checkObstaclesInDirection(coordinates, 'left')) {
+                
+                let newRightValue = currentRightValue + this.stepDistanceX;
                 $('.moveable').css('right', newRightValue);
+
             };
 
         }
@@ -227,70 +225,61 @@ class Game {
         
     }
 
-    checkObstaclesInDirection(blocks, direction) {
-
-        // why did i loop in all of these ? ,,, i should change it to loop on only the needed direction , with only the needed value (bottom or left or right not all of them) 
-        // also, i don't need the newValue parameter, i should just add the stepDistanceX or stepDistanceY to the position which i already have, and that's the new value !!
+    checkObstaclesInDirection(blocksCoordinates, direction) {
 
         if (direction === 'bottom') {
 
-            for (let block of blocks) {
+            for (let block of blocksCoordinates) {
 
-                let futureY = block.bottom + this.stepDistanceY - ($('.block').first().height() / 2); // i need to divide this by half its height
-                console.log(futureY)
+                let futureY = block.bottom + this.stepDistanceY - ($('.block').first().height() / 2); 
                 let futureX = block.left + ((block.right - block.left) / 2)
                 let futureElements = document.elementsFromPoint(futureX, futureY);
                 
-
-
-                for (let element of futureElements) {
-                    if (element.tagName === "ASIDE"
-                        || element.tagName === "FOOTER"
-                        || (element.classList.contains('block') && !element.parentElement.classList.contains('moveable'))) {
-                            console.log('forbidden Y:' + futureY)
-                            console.log('forbidden X:' + futureX)
-                            return true;
-                    }
-                }
+                if (checkElements(futureElements)) return true;
 
             }
 
         } else if (direction === 'right') {
 
+            for (let block of blocksCoordinates) {
+
+                let futureY = block.bottom - ($('.block').first().height() / 2); 
+                let futureX = block.right + this.stepDistanceX - ($('.block').first().width() / 2);
+                let futureElements = document.elementsFromPoint(futureX, futureY);
+                
+                if (checkElements(futureElements)) return true;
+
+            }
+
         } else if (direction === 'left') {
 
+            for (let block of blocksCoordinates) {
+
+                let futureY = block.bottom - ($('.block').first().height() / 2); 
+                let futureX = block.left - this.stepDistanceX + ($('.block').first().width() / 2);
+                let futureElements = document.elementsFromPoint(futureX, futureY);
+                
+                if (checkElements(futureElements)) return true;
+
+            }
+
         }
 
         return false;
 
-        /////######################################################################$@#$@$@#$@#$@#$@#$@#$$
-        /////######################################################################$@#$@$@#$@#$@#$@#$@#$$
-        /////######################################################################$@#$@$@#$@#$@#$@#$@#$$
+        function checkElements(elements) {
+            for (let element of elements) {
 
-        for (let block of blocks) {
-
-            if (direction === 'bottom') block.bottom += this.stepDistanceY
-            else if (direction === 'right') block.right += this.stepDistanceX
-            else if (direction === 'left') block.left += this.stepDistanceX
-            
-            let leftCheck = document.elementsFromPoint(block.left, block.bottom);
-            let rightCheck = document.elementsFromPoint(block.right, block.bottom);
-            
-            for (let check of [leftCheck, rightCheck]) {
-                for (let element of check) {
-                    if (element.tagName === "ASIDE"
-                        || element.tagName === "FOOTER"
-                        || (element.classList.contains('block') 
-                            && !element.parentElement.classList.contains('moveable'))) {
+                if (element.tagName === "ASIDE"
+                    || element.tagName === "FOOTER"
+                    || (element.classList.contains('block') 
+                    && !element.parentElement.classList.contains('moveable'))) {
 
                         return true;
-                    }
                 }
+
             }
         }
-    
-        return false;
-
     }
 
     getBlockCoordinates(container) {
@@ -310,55 +299,15 @@ class Game {
     }
 }
 
-// ###########################################################################
-// ###########################################################################
-// ###########################################################################
-// ###########################################################################
-// down Here is just for help and will delete later
 
-// function checkObstacles(blocks) {
-    
-//     for (let block of blocks) {
-        
-//         let leftCheck = document.elementsFromPoint(block.left, block.bottom);
-//         let rightCheck = document.elementsFromPoint(block.right, block.bottom);
-        
-//         for (let check of [leftCheck, rightCheck]) {
 
-//             for (element of check) {
-//                 if (element.tagName === "ASIDE"
-//                     || element.tagName === "FOOTER"
-//                     || element.tagName === "DIV") {
+// ###########################################################################################
 
-//                     return true;
-//                 }
-//             }
-//         }
-//     }
 
-//     return false;
-// }
-
-// function getBlockCoordinates(container) {
-//     let coordinates = [];
-
-//     for (let block of container.children) {
-//         let rect = block.getBoundingClientRect();
-//         let obj = {
-//             right: rect.right,
-//             left: rect.left,
-//             bottom: rect.bottom
-//         }
-//         coordinates.push(obj)
-//     }
-
-//     return coordinates;
-// }
-
-document.addEventListener('click', e => {
-    let y = e.clientY;
-    let x = e.clientX;
-    console.log('Y: ' + y)
-    console.log('X: ' + x)
-    console.log('###############')
-})
+// document.addEventListener('click', e => {
+//     let y = e.clientY;
+//     let x = e.clientX;
+//     console.log('Y: ' + y)
+//     console.log('X: ' + x)
+//     console.log('###############')
+// })
