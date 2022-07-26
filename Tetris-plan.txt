@@ -1,3 +1,4 @@
+should change the rotate to check if there is an obstacle
 detecting lower half score:
 
 ------------TO DO-----------
