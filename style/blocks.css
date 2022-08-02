@@ -83,20 +83,20 @@
     height: 33.33333%;
 }
 
-.t-shaped :nth-child(1){top: 34%; left: 33.33333%;}
-.t-shaped :nth-child(2){top: 67%; left: 0%;}
-.t-shaped :nth-child(3){top: 67%; left: 33.33333%;}
-.t-shaped :nth-child(4){top: 67%; left: 67%;}
+.t-shaped :nth-child(1){top: 33.3333%; left: 33.33333%;}
+.t-shaped :nth-child(2){top: 66.33333%; left: 0%;}
+.t-shaped :nth-child(3){top: 66.33333%; left: 33.33333%;}
+.t-shaped :nth-child(4){top: 66.33333%; left: 66.33333%;}
 
 .t-shaped.flipped-right :nth-child(3){top: 0%; left: 0%;}
 .t-shaped.flipped-right :nth-child(4){top: 33.33333%; left: 0%;}
 
 .t-shaped.flipped-down :nth-child(2){top: 0%; left: 0%;}
 .t-shaped.flipped-down :nth-child(3){top: 0%; left: 33.3333%;}
-.t-shaped.flipped-down :nth-child(4){top: 0%; left: 67%;}
+.t-shaped.flipped-down :nth-child(4){top: 0%; left: 66.33333%;}
 
-.t-shaped.flipped-left :nth-child(2){top: 0%; left: 67%;}
-.t-shaped.flipped-left :nth-child(3){top: 33.33333%; left: 67%;}
+.t-shaped.flipped-left :nth-child(2){top: 0%; left: 66.33333%;}
+.t-shaped.flipped-left :nth-child(3){top: 33.33333%; left: 66.33333%;}
 
 /* 
 #############################
