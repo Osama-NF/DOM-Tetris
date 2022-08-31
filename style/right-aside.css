@@ -60,10 +60,10 @@
 */
 .play-btn {
     display: block;
-    margin: 80px auto;
+    margin: 50px auto;
     width: 80%;
     height: 10%;
-    font-size: 3.2em;
+    font-size: 2.2em;
     font-weight: bold;
     background-color: var(--main-color);
     color: var(--main-color-text);
