@@ -1,5 +1,5 @@
 $('.play-btn').click(function() {
-    let newGame = new Game(20, 500);
+    let newGame = new Game(20, 250);
     newGame.start();
 })
 
@@ -7,6 +7,8 @@ $('.play-btn').click(function() {
 class Game {
 
     constructor(dropDistance, dropSpeed) {
+
+        this.loseZone = document.getElementsByClassName('lose.zone')[0]
 
         this.dropSpeed = dropSpeed;
         this.dropSpeedCopy = dropSpeed;
@@ -143,13 +145,17 @@ class Game {
 
         } else {
             $(container).removeClass('moveable');
+            this.checkScoring();
+            this.checkLose();
             
-            let newContainer = this.createBlock();
-            $('main').append(newContainer);
-            
-            setTimeout(()=> {
-                this.dropBlock(newContainer)
-            }, this.dropSpeed)
+            if (this.inGame) {
+                let newContainer = this.createBlock();
+                $('main').append(newContainer);
+                
+                setTimeout(()=> {
+                    this.dropBlock(newContainer)
+                }, this.dropSpeed)
+            }
         }
         
     }
@@ -302,20 +308,38 @@ class Game {
     }
 
     checkLose(){
-        // This function should be called every time a block loses the (.moveable) class
-        // it doesn't return anything, but it changes the this.inGame to false (i might change this)
-        // it should basiclly check the 5% of height on top of the "main" , if there is any element with the class .block
-        // then it changes the this.inGame to false
+        let top = $('main').position().top + (this.blockHeight / 2);
+        let left = $('main').position().left + (this.blockWidth / 2);
+        
+        for (let i = 0; i < 20; i++) {
+
+            let element = document.elementFromPoint(left,top).tagName;
+            if (element !== "MAIN"){
+                this.end()
+                return
+            }
+            
+            left += this.blockWidth;
+        
+        }
     }
 
     checkScoring() {
-        // This function should be called every time a block loses the (.moveable) class    }
+        // This function should be called every time a block loses the (.moveable) class
         // it should check the lower 5% of the 'main', and if there is 20 elements with '.block' class
-        // then it removes the element and lowers all other blocks before calling the new block (will figure how to do that later)
+    }
+
+    removeRows(rows) {
+
     }
 
     end() {
-        // just end, (will check details later)
+        this.inGame = false;
+        /*
+            function this should call:
+            1- removeEventListeners()
+            2- calcScore()
+        */
     }
 }
 // ###########################################################################################
