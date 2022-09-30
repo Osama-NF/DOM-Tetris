@@ -330,7 +330,7 @@ class Game {
     }
 
     removeRows(rows) {
-
+        // should receive the row number that we need removed, and then remove all blocks from it.
     }
 
     end() {
