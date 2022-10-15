@@ -4,8 +4,11 @@
 #############################
 */
 
-/* Planning to change it back to block */
-
+.right {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-between;
+}
 
 
 /* 
@@ -35,23 +38,6 @@
     width: 100%;
     height: 75%;
 }
-
-/* 
-#############################
-########## Effects ##########
-#############################
-*/
-.effects {
-    display: block;
-    margin: 50px auto;
-    height: 40%;
-    width: 80%;
-    background-color: #222;
-    border: 2px solid var(--main-color);
-}
-.effects div {height: 33.3333%;}
-.effects .first-effect {border-bottom: 1px solid var(--main-color);}
-.effects .second-effect {border-bottom: 1px solid var(--main-color);}
 
 /* 
 #############################

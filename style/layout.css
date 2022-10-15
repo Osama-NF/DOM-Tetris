@@ -35,7 +35,7 @@ main {
     width: 60%;
     height: 95vh;
     background-color: var(--main-color);
-    box-shadow: 1px -25px 30px 15px black;
+    box-shadow: 1px -25px 20px 15px black;
     box-sizing: border-box;
     border: 2px solid black;
     position: relative;
