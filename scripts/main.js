@@ -309,25 +309,35 @@ class Game {
     checkRows(){
         let top = $('main').position().top + (this.blockHeight / 2);
         
-        for (let col = 1; col <= 20; col++) {
+        for (let row = 1; row <= 20; row++) {
 
             let left = $('main').position().left + (this.blockWidth / 2);
             
-            for (let row = 1; row <= 20; row++) {
+            for (let col = 1; col <= 20;col++) {
                 
 
-                let element = document.elementFromPoint(left,top).tagName;
-                if (col == 1 && element !== "MAIN"){
+                let element = document.elementFromPoint(left,top);
+
+                if (row == 1 && element.classList.contains('block')){
+
                     this.end()
                     return
-                } else if (col > 1 && element == "MAIN") {
+
+                } else if (row > 1 && !element.classList.contains('block')) {
+
                     left += this.blockWidth;
-                    break;
+                    console.log('break')
+                    break
+
+                } else if (col == 20 && element.classList.contains('block')) {
+
+                    console.log('this row is filled: ' + row)
+
                 } else {
-                    console.log(element)
-                    // testDot(top,left,'w')
+
+                    left += this.blockWidth;
+
                 }
-                
             
             }
 
@@ -372,6 +382,7 @@ class Game {
 //     console.log('Y: ' + y)
 //     console.log('X: ' + x)
 //     console.log('###############')
+//     console.log(document.elementFromPoint(x,y))
 // })
 
 function testDot(top, left, content = '',parent = 'body') {
