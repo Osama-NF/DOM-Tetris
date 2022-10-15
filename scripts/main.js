@@ -145,8 +145,7 @@ class Game {
 
         } else {
             $(container).removeClass('moveable');
-            this.checkScoring();
-            this.checkLose();
+            this.checkRows();
             
             if (this.inGame) {
                 let newContainer = this.createBlock();
@@ -307,26 +306,48 @@ class Game {
         return coordinates;
     }
 
-    checkLose(){
+    checkRows(){
         let top = $('main').position().top + (this.blockHeight / 2);
-        let left = $('main').position().left + (this.blockWidth / 2);
         
-        for (let i = 0; i < 20; i++) {
+        for (let col = 1; col <= 20; col++) {
 
-            let element = document.elementFromPoint(left,top).tagName;
-            if (element !== "MAIN"){
-                this.end()
-                return
-            }
+            let left = $('main').position().left + (this.blockWidth / 2);
             
-            left += this.blockWidth;
-        
+            for (let row = 1; row <= 20; row++) {
+                
+
+                let element = document.elementFromPoint(left,top).tagName;
+                if (col == 1 && element !== "MAIN"){
+                    this.end()
+                    return
+                } else if (col > 1 && element == "MAIN") {
+                    left += this.blockWidth;
+                    break;
+                } else {
+                    console.log(element)
+                    // testDot(top,left,'w')
+                }
+                
+            
+            }
+
+            top += this.blockHeight
         }
+    
+    }
+
+    score() {
+
     }
 
     checkScoring() {
-        // This function should be called every time a block loses the (.moveable) class
-        // it should check the lower 5% of the 'main', and if there is 20 elements with '.block' class
+        /*
+            this function should be called everytime a block loses it's .moveable class.
+            it should check for the rows where the .moveable lost it's class, because 
+            that's where a score can be.
+            check if there is 20 .moveable class the whole row, if so then removeRows()
+            and count scoring. 
+        */
     }
 
     removeRows(rows) {
@@ -343,7 +364,7 @@ class Game {
     }
 }
 // ###########################################################################################
-
+// testing tools
 
 // document.addEventListener('click', e => {
 //     let y = e.clientY;
@@ -352,3 +373,13 @@ class Game {
 //     console.log('X: ' + x)
 //     console.log('###############')
 // })
+
+function testDot(top, left, content = '',parent = 'body') {
+    let div = document.createElement('div')
+    div.textContent = content;
+    div.classList.add('test-dot')
+    div.style.top = top + 'px';
+    div.style.left = left + 'px';
+    div.style.zIndex = 9999;
+    $(parent).append(div)
+} 
