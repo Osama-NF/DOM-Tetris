@@ -203,7 +203,6 @@ class Game {
     }
 
     rotateBlock(dir) {
-
         let container = $('.moveable').first();
         let containerClasses = container.attr('class').split(' ');
 
@@ -318,24 +317,35 @@ class Game {
 
                 let element = document.elementFromPoint(left,top);
 
-                if (row == 1 && element.classList.contains('block')){
+                if (element.classList.contains('block')) {
 
-                    this.end()
-                    return
+                    if (row == 1) {
+                        
+                        this.end()
+                        return
 
-                } else if (row > 1 && !element.classList.contains('block')) {
+                    } else {
 
-                    left += this.blockWidth;
-                    console.log('break')
-                    break
+                        if (col == 20) {
 
-                } else if (col == 20 && element.classList.contains('block')) {
+                            console.log('this row is filled: ' + row)
+                            this.removeRow(row)
 
-                    console.log('this row is filled: ' + row)
+                        } else {
+
+                            left += this.blockWidth
+                            
+                        }
+
+                    }
 
                 } else {
 
-                    left += this.blockWidth;
+                    if (row == 1) {
+
+                        left += this.blockWidth
+
+                    } else break
 
                 }
             
@@ -346,44 +356,53 @@ class Game {
     
     }
 
+    removeRow(row) {
+
+        row = row - 1
+        let top = ($('main').position().top + (this.blockHeight / 2)) + (this.blockHeight * row);
+        let left = $('main').position().left + (this.blockWidth / 2);
+        let scoredArray = []
+
+        for (let col = 1; col <= 20; col++) {
+
+            scoredArray.push(document.elementFromPoint(left,top))
+            left += this.blockWidth
+        
+        }
+
+        console.log(scoredArray)
+        scoredArray.forEach(block => {
+            debugger
+            block.remove()
+        })
+
+    }
+
     score() {
 
     }
 
-    checkScoring() {
-        /*
-            this function should be called everytime a block loses it's .moveable class.
-            it should check for the rows where the .moveable lost it's class, because 
-            that's where a score can be.
-            check if there is 20 .moveable class the whole row, if so then removeRows()
-            and count scoring. 
-        */
-    }
-
-    removeRows(rows) {
-        // should receive the row number that we need removed, and then remove all blocks from it.
-    }
-
     end() {
-        this.inGame = false;
+        this.inGame = false
         /*
             function this should call:
             1- removeEventListeners()
             2- calcScore()
+            3- removeRow('all')
         */
     }
 }
 // ###########################################################################################
 // testing tools
 
-// document.addEventListener('click', e => {
-//     let y = e.clientY;
-//     let x = e.clientX;
-//     console.log('Y: ' + y)
-//     console.log('X: ' + x)
-//     console.log('###############')
-//     console.log(document.elementFromPoint(x,y))
-// })
+document.addEventListener('click', e => {
+    let y = e.clientY;
+    let x = e.clientX;
+    console.log('Y: ' + y)
+    console.log('X: ' + x)
+    console.log('###############')
+    console.log(document.elementFromPoint(x,y))
+})
 
 function testDot(top, left, content = '',parent = 'body') {
     let div = document.createElement('div')
